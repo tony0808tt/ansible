@@ -1,0 +1,16 @@
+---
+- name: Kill Process and Lock account
+  hosts: all
+  gather_facts: no
+#  vars:
+#    target_account: target_account
+
+  tasks:
+  - name: Kill all process - {{ target_account }}
+    shell: "killall -u {{ target_account }}"
+    ignore_errors: true # In case there is no process
+
+  - name: Lock the user account to nologin
+    user:
+       name: '{{ target_account }}'
+       shell: /sbin/nologin

@@ -1,0 +1,21 @@
+---
+- hosts: all
+  gather_facts: no
+  vars:
+    HOSTNAME: ""
+  tasks:
+    - name: "Print Information"
+      debug:
+        msg: "{{ansible_host}} Hostname change to {{HOSTNAME}}"
+
+    - name: "Change Hostname"
+      hostname:
+        name: "{{ HOSTNAME }}"
+
+    - name: "Update the hostname in /etc/hosts"
+      lineinfile:
+        path: /etc/hosts
+        regexp: "^{{ansible_host}}"
+        line: "{{ansible_host}}  {{ HOSTNAME }}"
+        state: present
+

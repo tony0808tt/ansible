@@ -1,0 +1,7 @@
+- name: Hello World Sample
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Hello Message
+      debug:
+        msg: "Hello World!! {{ ansible_facts['distribution'] }} , {{ ansible_facts.distribution_version }}  , {{ ansible_facts.kernel }} , {{ ansible_facts.hostname }}"

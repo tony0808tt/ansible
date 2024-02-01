@@ -1,0 +1,18 @@
+---
+-  hosts: all
+   gather_facts: no
+   vars:
+     patch_list:
+       - "zlib-1.2.11-19.el8_6.x86_64.rpm"
+       - "zlib-devel-1.2.11-19.el8_6.x86_64.rpm"
+   tasks:
+     - name: Copy Patch Files
+       copy:
+         src: patch_rpms/{{ item }}
+         dest: /tmp
+       with_items: "{{ patch_list }}"
+
+     - name: Update Patches ( with yum localinstall )
+       shell: yum --disablerepo=* localinstall *.rpm -y
+       args:
+         chdir: /tmp

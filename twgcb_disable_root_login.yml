@@ -1,0 +1,19 @@
+---
+- name: Disable root login via SSH
+  hosts: node3
+  gather_facts: no
+
+  handlers:
+  - name: "Restart sshd"
+    service:
+      name: "sshd"
+      state: "restarted"
+
+  tasks:
+      
+  - name: Disable root login via SSH
+    lineinfile:
+      dest: "/etc/ssh/sshd_config"
+      regexp: "^PermitRootLogin"
+      line: "PermitRootLogin no"
+    notify: "Restart sshd"
